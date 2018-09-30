@@ -1,0 +1,87 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<h1>Shree Swami Samartha</h1>
+<div id="dvReportGrid">
+  <div *ngIf="layoutMode == 'G'">
+
+    <div [style.top]="fhTopHeight" class="reportsgrid" id="fh_ReportContainer">
+      <table class="wp100" cellpadding="0" cellspacing="0" [hidden]="!isFixedHeader">
+        <thead>
+          <tr>
+            <th *ngFor="let column of __columns;" [style.white-space]="whiteSpace" (click)="sortHeaderClick(column)"
+              [attr.data-colId]="column.value" [ngClass]="column.headerClass">
+              <label *ngIf="column.isCheckboxable" class="datatable-checkbox">
+                <label style="color:black"></label>
+                <input type="checkbox" [(ngModel)]="checkboxSelected" (click)="onhdrCheckboxChange($event)" />
+              </label>
+              <span *ngIf="!column.isCheckboxable">
+                <span *ngIf="column.isSortable">
+                  <span style="color:black" [innerHTML]="column.name"></span>
+                </span>
+                <span *ngIf="!column.isSortable">
+                  <span style="color:black" [innerHTML]="column.name"></span>
+                </span>
+              </span>
+            </th>
+          </tr>
+          <tr [hidden]="!showFilter">
+            <th *ngFor="let column of __columns; let i = index">
+              <span *ngIf="column.filter" title="{{column.placeholdername}}">
+                <input class="Filter_panel" style="max-width:50px;" placeholder="{{column.placeholdername}}" type="text"
+                  id={{column.name}} [(ngModel)]="column.filterText" (ngModelChange)="searchText()" #seachTerm
+                  maxlength="50" />
+                <span class="filterPopup">
+                  <span class="filterPopupText" id={{column.id}}>Only numbers are allowed with preceding characters
+                    like ">", "<" comparision operators</span> </span> </span> </th> </tr> </thead> </table> </div>
+                      <div [style.top]="fhTopHeight" class="reportsgrid box-sizing nicescroll" [style.position]="isFixedHeader?'absolute':'unset'"
+                      id="ReportContainer" #divMainTable [hidden]="false">
+                      
+                      
+                      
+                      
+                      
+                      
+                      <table id="204_TradeBook" class="wp100" cellpadding="0" cellspacing="0">
+                        <thead [hidden]="isFixedHeader">
+                          <tr>
+                            <th *ngFor="let column of __columns; let i = index" [ngStyle]="{'width':column.width+'%'}"
+                              (click)="sortHeaderClick(column)" [ngClass]="column.headerClass">
+                              <span *ngIf="column.sort">
+                                <span style="color:black" [innerHTML]="column.name"></span>
+                              </span>
+                              <span *ngIf="!column.sort">
+                                <span style="color:black" [innerHTML]="column.name"></span>
+                              </span>
+                            </th>
+                          </tr>
+                          <tr [hidden]="!showFilter">
+                            <th *ngFor="let column of __columns; let i = index">
+                              <span *ngIf="column.filter" title="{{column.placeholdername}}">
+                                <input class="Filter_panel" style="width:98%;" placeholder="{{column.placeholdername}}"
+                                  type="text" id={{column.name}} [(ngModel)]="column.filterText" (ngModelChange)="searchText()"
+                                  #seachTerm maxlength="50" />
+                                <span class="filterPopup" style="position:absolute;">
+                                  <span class="filterPopupText" id={{column.id}}>Only numbers are allowed with
+                                    preceding characters like ">", "<" comparision operators</span> </span> </span> </th>
+                                      </tr> </thead> <tbody>
+                          <tr *ngFor="let row of rowsPaged; let i = index" (click)="onRowClick(row)" [ngClass]="row.cellClassName">
+                            <td *ngFor="let column of __columns" [ngClass]="column.cssClass" [style.white-space]="whiteSpace"
+                              [ngStyle]="{'width':column.width+'%'}">
+                              <label *ngIf="column.isCheckboxable" class="datatable-checkbox">
+                                <input type="checkbox" [disabled]="row.Canceldisabled" [checked]="row.isCheckSelected"
+                                  (click)="onCheckboxChange(row, $event)" />
+                              </label>
+
+                              <span *ngIf="!column.cellTemplate && !column.isCheckboxable" [innerHTML]="row[column.value]">
+                              </span>
+
+                              <ng-template *ngIf="column.cellTemplate && !column.isCheckboxable" [ngTemplateOutlet]="column.cellTemplate"
+                                [ngTemplateOutletContext]="{ value: value, row: row, column: column }">
+                              </ng-template>
+                            </td>
+                          </tr>
+                          </tbody>
+                      </table>
+
+    </div>
+  </div>
+</div>

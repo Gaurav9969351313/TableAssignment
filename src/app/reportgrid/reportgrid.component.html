@@ -1,0 +1,58 @@
+<div>{{tableTitle}}</div>
+
+<div class="tableStart">
+  <div class="isDataAvailable" *ngIf="tableRows.length == 0">
+    {{noDataFoundMsg}}
+  </div>
+
+<div class="table" *ngIf="tableRows.length != 0">
+    <table cellpadding="0" cellspacing="0">
+      <thead>
+        <tr>
+
+          <th *ngFor="let column of tableHeaders;" 
+            [style.white-space]="whiteSpace" (click)="sortHeaderClick(column)"
+            [attr.data-colId]="column.index">
+              <span [innerHTML]="column.title"></span>
+          </th>
+
+        </tr>
+      </thead>
+      <tbody>
+<!-- tableRows -->
+<tr *ngFor="let row of rowsPaged; let i = index" (click)="onRowClick(row)">
+          <td *ngFor="let columnTd of tableHeaders; let j = index">
+            {{row[columnTd.accessor]}}
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+<div class="clear"></div>
+<div *ngIf="showPaging" class="Pagination_Parent" role="toolbar">
+  <div class="pagination">
+   
+    <ul>
+      <li [ngClass]="{'disabled': (bDisablePrev || pageNumber == 0)}" (click)="prevPage()">
+        <button style="cursor:pointer;" [className]="'pageStart'">Prev</button>
+      </li>
+
+      <li *ngFor="let page of pagesIndex" [ngClass]="{'active': (currentIndex == page)}" (click)="setPage(page)">
+        <a href="javascript:void(0);">{{page}}</a>
+      </li>
+
+      <li [ngClass]="{'disabled': (bDisableNext || pageNumber == 0)}" (click)="nextPage()">
+        <button style="cursor:pointer;" [className]="'pageend'">Next</button>
+      </li>
+    </ul>
+
+  </div>
+  <div class="Paging_name" *ngIf="pageNumber > 0">
+    <label>Showing Page {{currentIndex}} of {{pageNumber}}</label>
+  </div>
+</div>
+
+</div>
+
